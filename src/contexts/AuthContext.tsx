@@ -20,8 +20,35 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = useCallback(async (email: string, password: string) => {
     setIsLoading(true);
     try {
-      // TODO: Implement actual API call
-      console.log("Login:", email);
+      // Hardcoded test signin for local development
+      // Accepts either email or username as `email` argument
+      await new Promise((r) => setTimeout(r, 500));
+
+      const demoEmails = ["test@gracenook.local", "test"];
+      const demoPassword = "password123";
+
+      if ((demoEmails.includes(email) || email === "demo") && password === demoPassword) {
+        const mockUser: User = {
+          id: "u_test_1",
+          email: "test@gracenook.local",
+          username: "testuser",
+          name: "Test User",
+          bio: "I am testing GraceNook",
+          profilePicture: "https://i.pravatar.cc/150?img=3",
+          bannerImage: "",
+          location: "Earth",
+          website: "",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          friendCount: 5,
+          followerCount: 12,
+        };
+        setCurrentUser(mockUser);
+        return;
+      }
+
+      // Fallback: not authorized
+      throw new Error("Invalid credentials");
     } finally {
       setIsLoading(false);
     }
@@ -31,8 +58,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     async (email: string, username: string, password: string, name: string) => {
       setIsLoading(true);
       try {
-        // TODO: Implement actual API call
-        console.log("Signup:", email, username, name);
+        // Simple local signup stub - create a mock user and set as current user
+        await new Promise((r) => setTimeout(r, 500));
+        const mockUser: User = {
+          id: `u_${Math.random().toString(36).slice(2, 9)}`,
+          email,
+          username,
+          name,
+          bio: "",
+          profilePicture: "https://i.pravatar.cc/150?img=5",
+          bannerImage: "",
+          location: "",
+          website: "",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          friendCount: 0,
+          followerCount: 0,
+        };
+        setCurrentUser(mockUser);
       } finally {
         setIsLoading(false);
       }
