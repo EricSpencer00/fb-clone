@@ -1,0 +1,9 @@
+{
+  "source": "https://21st.dev/r/aceternity/sidebar",
+  "savedAt": "2025-11-12T18:11:56.000Z",
+  "filename": "data.json",
+  "contentType": "application/json",
+  "writtenFiles": [
+    "components/ui/sidebar.tsx"
+  ]
+}

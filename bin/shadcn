@@ -1,0 +1,44 @@
+#!/usr/bin/env node
+import { argv, exit } from 'process';
+import { fileURLToPath } from 'url';
+import path from 'path';
+import fs from 'fs/promises';
+
+import { addFromUrl } from '../lib/add.js';
+
+async function main() {
+  const args = argv.slice(2);
+  if (args.length === 0 || args.includes('--help') || args[0] === 'help') {
+    console.log(`Usage: shadcn add <url> [--name <component-name>]\n`);
+    exit(0);
+  }
+
+  const cmd = args[0];
+  if (cmd !== 'add') {
+    console.error(`Unknown command: ${cmd}`);
+    exit(2);
+  }
+
+  const url = args[1];
+  if (!url) {
+    console.error('Missing URL. Example: shadcn add https://example.com/component');
+    exit(2);
+  }
+
+  let name;
+  const nameIndex = args.indexOf('--name');
+  if (nameIndex !== -1 && args[nameIndex + 1]) {
+    name = args[nameIndex + 1];
+  }
+
+  try {
+    const saved = await addFromUrl(url, { name });
+    console.log('Saved component to:', saved);
+    exit(0);
+  } catch (err) {
+    console.error('Error:', err.message || err);
+    exit(1);
+  }
+}
+
+main();
