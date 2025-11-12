@@ -1,0 +1,9 @@
+{
+  "source": "https://21st.dev/r/originui/dialog",
+  "savedAt": "2025-11-12T18:54:19.901Z",
+  "filename": "data.json",
+  "contentType": "application/json",
+  "writtenFiles": [
+    "components/ui/dialog.tsx"
+  ]
+}

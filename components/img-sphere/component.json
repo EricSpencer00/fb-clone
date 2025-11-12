@@ -1,0 +1,9 @@
+{
+  "source": "https://21st.dev/r/tonyzebastian/img-sphere",
+  "savedAt": "2025-11-12T18:54:03.650Z",
+  "filename": "data.json",
+  "contentType": "application/json",
+  "writtenFiles": [
+    "src/components/ui/img-sphere.tsx"
+  ]
+}

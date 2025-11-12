@@ -1,0 +1,9 @@
+{
+  "source": "https://21st.dev/r/uilayout.contact/sticky-scroll",
+  "savedAt": "2025-11-12T18:54:35.635Z",
+  "filename": "data.json",
+  "contentType": "application/json",
+  "writtenFiles": [
+    "src/components/ui/sticky-scroll.tsx"
+  ]
+}
