@@ -23,11 +23,11 @@ export function Landing() {
         {/* Content Overlay */}
         <div className="relative z-10 h-full flex flex-col items-center justify-center px-4 pt-20 pb-12">
           <div className="text-center max-w-3xl mx-auto">
-            <h1 className="text-6xl md:text-7xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent mb-6 leading-tight">
+            <h1 className="text-5xl md:text-6xl font-extrabold text-indigo-700 mb-4">
               GraceNook
             </h1>
-            <p className="text-2xl md:text-3xl font-bold text-gray-800 mb-3">
-              Simple. Safe. Fun.
+            <p className="text-xl md:text-2xl font-semibold text-gray-800 mb-3">
+              A kinder, simpler social feed — built for people, not algorithms.
             </p>
             <p className="text-lg text-gray-600 mb-10 max-w-xl mx-auto leading-relaxed">
               A social network built for genuine connections, not endless scrolling.
