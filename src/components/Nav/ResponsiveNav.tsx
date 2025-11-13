@@ -1,8 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from "@/components/ui/dialog";
+import FriendsPopup from "@/src/components/Friends/FriendsPopup";
+import { useState, useRef } from "react";
 
 export default function ResponsiveNav() {
+  const [showFriends, setShowFriends] = useState(false);
+
   const NavItem = ({ to, label }: { to: string; label: string }) => (
     <Link to={to} className="block px-3 py-2 rounded hover:bg-gray-100 text-sm font-medium">
       {label}
@@ -14,13 +18,28 @@ export default function ResponsiveNav() {
       {/* Right side nav for larger screens */}
       <aside className="hidden lg:flex flex-col w-72 fixed right-0 top-16 h-[calc(100%-4rem)] p-4 gap-3 border-l bg-white/70 backdrop-blur-sm z-40">
         <div className="text-sm font-semibold px-2 pb-2">Explore</div>
-        <nav className="flex-1 space-y-1">
+        <nav className="flex-1 space-y-1 relative">
+          {/* friends popup state */}
+          {/* showFriends toggles the small popup that extends from the Friends button */}
+          
           <NavItem to="/feed" label="Home" />
-          <NavItem to="/friends" label="Friends" />
+          <button
+            onClick={() => setShowFriends((s) => !s)}
+            ref={null}
+            className="block text-left w-full px-3 py-2 rounded hover:bg-gray-100 text-sm font-medium"
+          >
+            Friends
+          </button>
           <NavItem to="#" label="Messages" />
           <NavItem to="#" label="Notifications" />
           <NavItem to="#" label="Groups" />
           <NavItem to="#" label="Events" />
+
+          {showFriends && (
+            <div className="absolute right-full mr-3 top-12">
+              <FriendsPopup onClose={() => setShowFriends(false)} />
+            </div>
+          )}
         </nav>
 
         <div className="pt-2 border-t mt-2">

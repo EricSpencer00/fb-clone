@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AuthProvider } from "@/src/contexts/AuthContext";
 import { Landing } from "@/src/pages/Landing";
 import { Home } from "@/src/pages/Home";
@@ -12,7 +12,9 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        <ResponsiveNav />
+        {/* Render the responsive right-side nav on non-auth pages only. */}
+        <ConditionalNav />
+
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/auth/signin" element={<SignIn />} />
@@ -28,3 +30,11 @@ function App() {
 }
 
 export default App;
+
+function ConditionalNav() {
+  // must be used within Router
+  const { pathname } = useLocation();
+  const hide = pathname === "/" || pathname.startsWith("/auth");
+  if (hide) return null;
+  return <ResponsiveNav />;
+}
