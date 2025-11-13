@@ -54,21 +54,21 @@ export function Feed() {
       <div className="max-w-7xl mx-auto py-10 px-4 flex gap-8">
         {/* Left sidebar */}
         <div className="hidden md:block">
-          <Sidebar>
-            <SidebarBody>
-              <div className="px-2 py-4">
-                <div className="mb-6 px-3">
-                  <h2 className="text-lg font-bold">GraceNook</h2>
-                  <p className="text-xs text-gray-500">A kinder social feed</p>
-                </div>
+          <div className="px-2 py-4">
+            <div className="mb-6 px-3">
+              <h2 className="text-lg font-bold">GraceNook</h2>
+              <p className="text-sm text-gray-500">A kinder social feed</p>
+            </div>
+            <Sidebar>
+              <SidebarBody>
                 <div className="space-y-1">
                   {links.map((l) => (
                     <SidebarLink key={l.href} link={l} />
                   ))}
                 </div>
-              </div>
-            </SidebarBody>
-          </Sidebar>
+              </SidebarBody>
+            </Sidebar>
+          </div>
         </div>
 
         {/* Main feed area */}

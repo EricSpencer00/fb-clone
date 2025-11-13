@@ -67,6 +67,26 @@ export function Landing() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [loadingMore, posts.length]);
 
+  // When we've reached the max posts, cap the scroll so users cannot scroll past content
+  useEffect(() => {
+    if (posts.length < maxPosts) return;
+
+    let allowedMax = document.body.scrollHeight - window.innerHeight;
+    const capScroll = () => {
+      const nowMax = document.body.scrollHeight - window.innerHeight;
+      // update allowedMax if layout changed slightly
+      if (Math.abs(nowMax - allowedMax) > 2) allowedMax = nowMax;
+      if (window.scrollY > allowedMax) {
+        window.scrollTo({ top: allowedMax });
+      }
+    };
+
+    window.addEventListener("scroll", capScroll, { passive: true });
+    // run once to clamp if needed
+    capScroll();
+    return () => window.removeEventListener("scroll", capScroll);
+  }, [posts.length, maxPosts]);
+
   return (
     <div className="min-h-screen w-full bg-white relative overflow-hidden">
       {/* Left & Right wave edges (hidden on small screens) */}
@@ -148,12 +168,14 @@ export function Landing() {
                 className="space-y-6"
               >
                 {posts.map((p) => (
-                  <div key={p.id} className="filter blur-sm">
-                    <SocialCard
-                      author={p.author}
-                      content={p.content}
-                      engagement={p.engagement}
-                    />
+                  <div key={p.id} className="rounded-2xl overflow-hidden bg-white/95">
+                    <div className="filter blur-sm pointer-events-none">
+                      <SocialCard
+                        author={p.author}
+                        content={p.content}
+                        engagement={p.engagement}
+                      />
+                    </div>
                   </div>
                 ))}
 
