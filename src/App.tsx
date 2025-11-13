@@ -6,11 +6,13 @@ import SignIn from "@/src/pages/auth/SignIn";
 import SignUp from "@/src/pages/auth/SignUp";
 import Feed from "@/src/pages/Feed";
 import Friends from "@/src/pages/Friends";
+import ResponsiveNav from "@/src/components/Nav/ResponsiveNav";
 
 function App() {
   return (
     <Router>
       <AuthProvider>
+        <ResponsiveNav />
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/auth/signin" element={<SignIn />} />

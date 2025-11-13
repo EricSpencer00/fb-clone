@@ -41,7 +41,7 @@ export function Feed() {
   const [posts] = useState(samplePosts);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 lg:pr-72">
       <div className="max-w-4xl mx-auto py-10 px-4">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold">Home Feed</h1>
