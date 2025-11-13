@@ -1,166 +1,171 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { Waves } from "@/components/ui/wave-background";
+import { SocialCard } from "@/components/ui/social-card";
 
 export function Landing() {
   const navigate = useNavigate();
   const [hoveredButton, setHoveredButton] = useState<"signup" | "signin" | null>(null);
+  
+  // --- Infinite-scroll mock state ---
+  type MockPost = {
+    id: string;
+    author: { name: string; username: string; avatar?: string; timeAgo?: string };
+    content: { text: string };
+    engagement: { likes: number; comments: number; shares: number };
+  };
+
+  const feedRef = useRef<HTMLDivElement | null>(null);
+  const [posts, setPosts] = useState<MockPost[]>(() => {
+    // seed with a few posts
+    const seed: MockPost[] = [];
+    for (let i = 1; i <= 6; i++) {
+      seed.push({
+        id: `p_init_${i}`,
+        author: { name: `User ${i}`, username: `user${i}`, avatar: `https://i.pravatar.cc/100?img=${10 + i}`, timeAgo: `${i}h` },
+        content: { text: `This is a sample post #${i} — welcome to GraceNook.` },
+        engagement: { likes: Math.floor(Math.random() * 60), comments: Math.floor(Math.random() * 8), shares: Math.floor(Math.random() * 4) },
+      });
+    }
+    return seed;
+  });
+  const [loadingMore, setLoadingMore] = useState(false);
+  const maxPosts = 60;
+
+  const generateMockPost = (index: number): MockPost => ({
+    id: `p_${Date.now()}_${index}`,
+    author: { name: `Person ${index}`, username: `person${index}`, avatar: `https://i.pravatar.cc/100?img=${20 + (index % 70)}`, timeAgo: `${(index % 12) + 1}h` },
+    content: { text: [`Lovely day for a walk.`, `Sharing a quick update from my day.`, `Anyone else reading something great?`, `Here are photos from the weekend.`][index % 4] + ` (post ${index})` },
+    engagement: { likes: Math.floor(Math.random() * 120), comments: Math.floor(Math.random() * 20), shares: Math.floor(Math.random() * 5) },
+  });
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (loadingMore) return;
+      // if near bottom of the page, load more
+      const scrollBottom = window.innerHeight + window.scrollY;
+      const docHeight = document.body.offsetHeight;
+      if (scrollBottom >= docHeight - 600 && posts.length < maxPosts) {
+        setLoadingMore(true);
+        // simulate network
+        setTimeout(() => {
+          setPosts((prev) => {
+            const next: MockPost[] = [];
+            const start = prev.length + 1;
+            for (let i = start; i < start + 6 && prev.length + next.length < maxPosts; i++) {
+              next.push(generateMockPost(i));
+            }
+            return [...prev, ...next];
+          });
+          setLoadingMore(false);
+        }, 700 + Math.random() * 600);
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [loadingMore, posts.length]);
 
   return (
-    <div className="min-h-screen w-full bg-white">
-      {/* Hero Section with Wave Background */}
-      <div className="relative min-h-[80vh] w-full overflow-hidden bg-gradient-to-b from-blue-50 to-white">
-        {/* Wave Background Component */}
-        <div className="absolute inset-0 opacity-100">
-          <Waves 
-            strokeColor="#2563eb" 
-            backgroundColor="#f0f9ff"
-            pointerSize={0.8}
-          />
+    <div className="min-h-screen w-full bg-white relative overflow-hidden">
+      {/* Left & Right wave edges (hidden on small screens) */}
+      <div className="hidden md:block pointer-events-none">
+        <div className="absolute left-0 top-0 bottom-0 w-[28%] overflow-hidden -z-10">
+          <div className="translate-x-[-20%]">
+            <Waves strokeColor="#3b82f6" backgroundColor="transparent" pointerSize={0.9} />
+          </div>
         </div>
+        <div className="absolute right-0 top-0 bottom-0 w-[28%] overflow-hidden -z-10">
+          <div className="translate-x-[20%] rotate-180">
+            <Waves strokeColor="#6366f1" backgroundColor="transparent" pointerSize={0.9} />
+          </div>
+        </div>
+      </div>
 
-        {/* Content Overlay */}
-        <div className="relative z-10 h-full flex flex-col items-center justify-center px-4 pt-20 pb-12">
-          <div className="text-center max-w-3xl mx-auto">
-            <h1 className="text-5xl md:text-6xl font-extrabold text-indigo-700 mb-4">
-              GraceNook
+      {/* Main hero + two-column content */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 py-16">
+        <div className="grid md:grid-cols-2 gap-12 items-start">
+          {/* Left column: headline + CTAs */}
+          <div className="pt-8">
+            <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 leading-tight mb-4">
+              Connect with friends and the world around you on GraceNook.
             </h1>
-            <p className="text-xl md:text-2xl font-semibold text-gray-800 mb-3">
-              A kinder, simpler social feed — built for people, not algorithms.
-            </p>
-            <p className="text-lg text-gray-600 mb-10 max-w-xl mx-auto leading-relaxed">
-              A social network built for genuine connections, not endless scrolling.
-              Privacy you control. Transparency you deserve.
+            <p className="text-lg text-gray-700 mb-8">
+              See photos and updates from your friends in a feed that focuses on people, not algorithms.
             </p>
 
-            {/* CTA Buttons */}
-            <div className="flex gap-4 justify-center flex-wrap mb-12">
+            <div className="flex gap-4 mb-6">
               <Button
                 onClick={() => navigate("/auth/signup")}
                 size="lg"
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-6 text-lg font-semibold shadow-lg"
-                onMouseEnter={() => setHoveredButton("signup")}
-                onMouseLeave={() => setHoveredButton(null)}
+                className="bg-blue-600 text-white px-6 py-3"
               >
-                Get Started Free
+                Create an account
               </Button>
               <Button
                 onClick={() => navigate("/auth/signin")}
                 variant="outline"
-                size="lg"
-                className="px-8 py-6 text-lg font-semibold border-2 border-gray-300 hover:border-gray-400 hover:bg-gray-50"
-                onMouseEnter={() => setHoveredButton("signin")}
-                onMouseLeave={() => setHoveredButton(null)}
+                className="px-6 py-3"
               >
-                Sign In
+                Sign in
               </Button>
             </div>
 
-            {/* Trust Indicators */}
-            <div className="grid grid-cols-3 gap-6 text-sm font-medium text-gray-700">
-              <div className="flex flex-col items-center">
-                <span className="text-3xl mb-2">🔒</span>
-                <span>Privacy First</span>
+            <ul className="text-sm text-gray-600 space-y-2">
+              <li>• Share updates with friends</li>
+              <li>• Join groups to meet people who share your interests</li>
+              <li>• Control your privacy and data</li>
+            </ul>
+          </div>
+
+          {/* Right column: blurred feed preview */}
+          <div className="pt-8">
+            <div className="max-w-xl mx-auto bg-white rounded-3xl shadow-lg overflow-hidden relative">
+              <div className="p-6">
+                <h3 className="text-lg font-semibold mb-4">Preview of your feed</h3>
+                <div className="space-y-6 relative">
+                  {/* Infinite-scroll mimic: render blurred mock posts and append as user scrolls */}
+                  {/** posts will be rendered here by state below */}
+                </div>
+                <div className="h-6" />
               </div>
-              <div className="flex flex-col items-center">
-                <span className="text-3xl mb-2">✨</span>
-                <span>Clean UI</span>
+
+              {/* Overlay to require sign-in */}
+              <div className="absolute inset-0 bg-white/60 backdrop-blur-sm flex flex-col items-center justify-center">
+                <p className="text-center text-gray-800 font-medium mb-4">Sign in to see and interact with your feed</p>
+                <div className="flex gap-3">
+                  <Button onClick={() => navigate("/auth/signin")} className="px-5 py-2">Sign in</Button>
+                  <Button variant="outline" onClick={() => navigate("/auth/signup")} className="px-5 py-2">Create account</Button>
+                </div>
               </div>
-              <div className="flex flex-col items-center">
-                <span className="text-3xl mb-2">🤝</span>
-                <span>Real Friends</span>
+            </div>
+
+            {/* Below the preview: a long blurred feed that grows as the user scrolls */}
+            <div className="mt-8 max-w-xl mx-auto">
+              <div
+                ref={feedRef}
+                className="space-y-6"
+              >
+                {posts.map((p) => (
+                  <div key={p.id} className="filter blur-sm">
+                    <SocialCard
+                      author={p.author}
+                      content={p.content}
+                      engagement={p.engagement}
+                    />
+                  </div>
+                ))}
+
+                {loadingMore && (
+                  <div className="flex items-center justify-center py-6">
+                    <div className="animate-pulse text-gray-500">Loading more...</div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Features Section */}
-      <div className="bg-white py-20 px-4">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-4 text-gray-900">
-            Why GraceNook?
-          </h2>
-          <p className="text-center text-gray-600 mb-16 max-w-2xl mx-auto">
-            We rethought social media from the ground up. Here's what makes us different.
-          </p>
-
-          <div className="grid md:grid-cols-2 gap-12">
-            {/* Feature 1 */}
-            <div className="space-y-4">
-              <div className="h-64 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-xl flex items-center justify-center text-white">
-                <div className="text-center">
-                  <h3 className="text-3xl font-bold mb-2">✨</h3>
-                  <p className="text-sm">Clean Design</p>
-                </div>
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900">Simple. No Clutter.</h3>
-              <p className="text-gray-600">
-                Clean, intuitive interface designed for genuine connections. Say goodbye to algorithm chaos and endless ads.
-              </p>
-            </div>
-
-            {/* Feature 2 */}
-            <div className="space-y-4">
-              <div className="h-64 bg-gradient-to-br from-purple-500 to-pink-400 rounded-xl flex items-center justify-center text-white">
-                <div className="text-center">
-                  <h3 className="text-3xl font-bold mb-2">🔒</h3>
-                  <p className="text-sm">Your Control</p>
-                </div>
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900">Privacy First.</h3>
-              <p className="text-gray-600">
-                You control your data. Transparent privacy settings mean you decide who sees what, always.
-              </p>
-            </div>
-
-            {/* Feature 3 */}
-            <div className="space-y-4">
-              <div className="h-64 bg-gradient-to-br from-green-500 to-teal-400 rounded-xl flex items-center justify-center text-white">
-                <div className="text-center">
-                  <h3 className="text-3xl font-bold mb-2">🤝</h3>
-                  <p className="text-sm">Real Connections</p>
-                </div>
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900">Connect Meaningfully.</h3>
-              <p className="text-gray-600">
-                Follow friends, join groups, message privately. All the tools you need, none of the noise.
-              </p>
-            </div>
-
-            {/* Feature 4 */}
-            <div className="space-y-4">
-              <div className="h-64 bg-gradient-to-br from-orange-500 to-red-400 rounded-xl flex items-center justify-center text-white">
-                <div className="text-center">
-                  <h3 className="text-3xl font-bold mb-2">💰</h3>
-                  <p className="text-sm">Fair & Transparent</p>
-                </div>
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900">Ad-Supported, Not Ad-Obsessed.</h3>
-              <p className="text-gray-600">
-                We're transparent about ads. They help us stay free, but they won't dominate your feed.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* CTA Footer */}
-      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 py-16 px-4 text-center border-t">
-        <h3 className="text-3xl font-bold text-gray-900 mb-4">
-          Ready to join?
-        </h3>
-        <p className="text-gray-600 mb-8 max-w-xl mx-auto">
-          Join thousands of people building genuine connections without the noise.
-        </p>
-        <Button
-          onClick={() => navigate("/auth/signup")}
-          size="lg"
-          className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-6 text-lg font-semibold"
-        >
-          Create Your Account
-        </Button>
       </div>
     </div>
   );
