@@ -3,6 +3,7 @@ name: Build and deploy to GitHub Pages
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -33,6 +34,13 @@ jobs:
 
       - name: Build
         run: pnpm build
+
+      - name: Debug: show run id and dist contents
+        run: |
+          echo "GITHUB_RUN_ID=$GITHUB_RUN_ID"
+          echo "GITHUB_RUN_NUMBER=$GITHUB_RUN_NUMBER"
+          echo "Listing dist contents:"
+          ls -la dist || true
 
       - name: Upload artifact for GitHub Pages
         uses: actions/upload-pages-artifact@v3
