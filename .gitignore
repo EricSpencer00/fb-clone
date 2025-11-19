@@ -1,2 +1,8 @@
 node_modules
 dist
+.env.local
+.env.production.local
+.env.development.local
+.wrangler/
+*.wrangler
+pnpm-lock.yaml

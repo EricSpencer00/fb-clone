@@ -10,7 +10,7 @@ import ResponsiveNav from "@/src/components/Nav/ResponsiveNav";
 
 function App() {
   return (
-    <Router basename="/fb-clone">
+    <Router basename="/">
       <AuthProvider>
         {/* Render the responsive right-side nav on non-auth pages only. */}
         <ConditionalNav />

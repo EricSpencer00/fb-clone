@@ -1,0 +1,34 @@
+# Cloudflare Pages configuration
+name = "gracenook"
+type = "javascript"
+account_id = ""
+workers_dev = true
+route = ""
+zone_id = ""
+
+# Pages configuration
+[env.production]
+name = "gracenook"
+routes = [
+  { pattern = "gracenook.pages.dev", zone_id = "" }
+]
+
+# Build configuration
+[build]
+command = "pnpm build"
+cwd = "./"
+watch_paths = ["src/**/*.ts", "src/**/*.tsx", "src/**/*.css"]
+
+[build.upload]
+format = "modules"
+
+# Assets configuration
+[assets]
+binding = "ASSETS"
+
+# Environment variables can be added here
+[env.production.vars]
+API_URL = "https://api.gracenook.workers.dev"
+
+[env.development.vars]
+API_URL = "http://localhost:8788"
