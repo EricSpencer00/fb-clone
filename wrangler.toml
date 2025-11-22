@@ -1,50 +1,43 @@
-# Cloudflare Pages configuration
+# Cloudflare Workers + Pages dual deployment
 name = "gracenook"
 workers_dev = true
-
-# Compatibility date for Wrangler / Workers runtime
 compatibility_date = "2025-11-22"
 main = "src/worker.js"
+pages_build_output_dir = "./dist"
 
-# Pages configuration
-[env.production]
-name = "gracenook"
-routes = [
-  { pattern = "gracenook.pages.dev", zone_id = "" }
-]
-
-# Build configuration
+# Build configuration (for Pages)
 [build]
 command = "pnpm build"
 cwd = "./"
-# Keep build simple for CI: run `pnpm build` which produces `./dist`
 
-# Tell Wrangler/Pages where the build output lives so Pages can use this config
-pages_build_output_dir = "./dist"
+# Production environment: Worker + Pages + D1
+[env.production]
+name = "gracenook"
 
-# Note: removed assets binding to avoid "assets with a binding in an assets-only Worker" error
-# For Cloudflare Pages deployments, avoid declaring an assets binding unless you provide
-# a Worker script (`main`) in this configuration.
-
-# If you want `wrangler deploy` to upload static assets from `./dist`, declare it here.
-[assets]
-directory = "./dist"
-
-[[d1_databases]]
+# D1 database binding (production only)
+[[env.production.d1_databases]]
 binding = "DB"
 database_name = "gracenook_db"
 database_id = "654c0b9e-fb63-4ef9-aaa9-39758baf87de"
 
 # R2 bucket binding will be added once bucket is enabled in dashboard
-# [[r2_buckets]]
+# [[env.production.r2_buckets]]
 # binding = "ASSETS"
 # bucket_name = "gracenook-assets"
 
-# Environment variables can be added here
+# Production environment variables
+# JWT_SECRET is managed via `wrangler secret put` (not in config)
 [env.production.vars]
-API_URL = "https://api.gracenook.workers.dev"
-JWT_SECRET = "CHANGE_ME_PROD_SECRET_32CHARS_MIN"
+API_URL = "https://gracenook.thebiggydg2019.workers.dev"
+
+# Development environment: local dev Worker
+[env.development]
+name = "gracenook-dev"
+
+[[env.development.d1_databases]]
+binding = "DB"
+database_name = "gracenook_db"
+database_id = "654c0b9e-fb63-4ef9-aaa9-39758baf87de"
 
 [env.development.vars]
 API_URL = "http://localhost:8788"
-JWT_SECRET = "dev_secret_local"

@@ -121,17 +121,8 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
         run: |
-          echo "Deploying Pages project 'gracenook' from dist/"
-          # Attempt deploy (pass --commit-dirty to silence uncommitted-changes warning)
-          pnpm --silent exec wrangler pages deploy dist --project-name=gracenook --branch=main --commit-hash=${{ github.sha }} --commit-dirty=true || (
-            echo "Pages deploy failed. Attempting to create Pages project 'gracenook' and re-deploy."
-            pnpm --silent exec wrangler pages project create gracenook --production-branch=main || (
-              echo "Could not create Pages project automatically. Please create the Pages project 'gracenook' in the Cloudflare dashboard and link the repository."
-              exit 1
-            )
-            echo "Retrying pages deploy..."
-            pnpm --silent exec wrangler pages deploy dist --project-name=gracenook --branch=main --commit-hash=${{ github.sha }} --commit-dirty=true
-          )
+          echo "Deploying Pages project 'fb-clone' from dist/"
+          pnpm --silent exec wrangler pages deploy dist --project-name=fb-clone --branch=main --commit-hash=${{ github.sha }} --commit-dirty=true
 
       - name: Put Worker runtime secrets (JWT_SECRET)
         env:
