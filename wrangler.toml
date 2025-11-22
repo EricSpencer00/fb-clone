@@ -40,6 +40,8 @@ database_id = "654c0b9e-fb63-4ef9-aaa9-39758baf87de"
 # Environment variables can be added here
 [env.production.vars]
 API_URL = "https://api.gracenook.workers.dev"
+JWT_SECRET = "CHANGE_ME_PROD_SECRET_32CHARS_MIN"
 
 [env.development.vars]
 API_URL = "http://localhost:8788"
+JWT_SECRET = "dev_secret_local"
