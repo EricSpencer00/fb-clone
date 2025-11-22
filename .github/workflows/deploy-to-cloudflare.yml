@@ -90,20 +90,28 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          echo "Verifying that the API token maps to the expected Cloudflare account id"
-          # Extract the Account ID from `wrangler whoami` output
-          whoami_out=$(pnpm --silent exec wrangler whoami 2>/dev/null || true)
-          echo "$whoami_out"
-          acct_line=$(echo "$whoami_out" | sed -n '3p' || true)
-          acct_id=$(echo "$acct_line" | awk -F'│' '{print $3}' | tr -d '[:space:]' || true)
+          echo "Verifying that the API token maps to the expected Cloudflare account id via API"
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "CLOUDFLARE_API_TOKEN is empty"
+            exit 1
+          fi
+          # Query Cloudflare API to list accounts accessible by the token
+          accounts_json=$(curl -s -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" -H "Content-Type: application/json" "https://api.cloudflare.com/client/v4/accounts")
+          if [ -z "$accounts_json" ]; then
+            echo "Empty response from Cloudflare accounts API"
+            exit 1
+          fi
+          # Extract the first account id
+          acct_id=$(echo "$accounts_json" | node -e "const fs=require('fs'); const j=JSON.parse(fs.readFileSync(0,'utf8')); if(j && j.result && j.result.length) console.log(j.result[0].id);") || true
           if [ -z "$acct_id" ]; then
-            echo "Could not determine account id from wrangler whoami output. Ensure the token has correct permissions."
+            echo "Could not extract account id from Cloudflare API response. Response:"
+            echo "$accounts_json"
             exit 1
           fi
           echo "Token account id: $acct_id"
           if [ "$acct_id" != "$CLOUDFLARE_ACCOUNT_ID" ]; then
             echo "Mismatch: token belongs to $acct_id but expected $CLOUDFLARE_ACCOUNT_ID"
-            echo "Ensure CLOUDFLARE_API_TOKEN is for the same account as CLOUDFLARE_ACCOUNT_ID."
+            echo "Ensure CLOUDFLARE_API_TOKEN is for the same account as CLOUDFLARE_ACCOUNT_ID and has Pages permissions."
             exit 1
           fi
 
