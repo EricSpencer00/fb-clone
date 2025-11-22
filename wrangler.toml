@@ -22,9 +22,9 @@ watch_paths = ["src/**/*.ts", "src/**/*.tsx", "src/**/*.css"]
 [build.upload]
 format = "modules"
 
-# Assets configuration
-[assets]
-binding = "ASSETS"
+# Note: removed assets binding to avoid "assets with a binding in an assets-only Worker" error
+# For Cloudflare Pages deployments, avoid declaring an assets binding unless you provide
+# a Worker script (`main`) in this configuration.
 
 # Environment variables can be added here
 [env.production.vars]
