@@ -60,7 +60,10 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           echo "Deploying Pages project 'gracenook' from dist/"
-          pnpm --silent exec wrangler pages deploy dist --project-name=gracenook --branch=main --commit-hash=${{ github.sha }}
+          echo "Listing existing Pages projects for debugging"
+          pnpm --silent exec wrangler pages project list || true
+          # Attempt deploy (pass --commit-dirty to silence uncommitted-changes warning)
+          pnpm --silent exec wrangler pages deploy dist --project-name=gracenook --branch=main --commit-hash=${{ github.sha }} --commit-dirty=true
 
       - name: Put Worker runtime secrets (JWT_SECRET)
         env:

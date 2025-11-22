@@ -19,6 +19,9 @@ command = "pnpm build"
 cwd = "./"
 # Keep build simple for CI: run `pnpm build` which produces `./dist`
 
+# Tell Wrangler/Pages where the build output lives so Pages can use this config
+pages_build_output_dir = "./dist"
+
 # Note: removed assets binding to avoid "assets with a binding in an assets-only Worker" error
 # For Cloudflare Pages deployments, avoid declaring an assets binding unless you provide
 # a Worker script (`main`) in this configuration.
