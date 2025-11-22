@@ -85,6 +85,28 @@ jobs:
           echo "Listing existing Pages projects for debugging"
           pnpm --silent exec wrangler pages project list || true
 
+      - name: Verify token account matches expected account id
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          echo "Verifying that the API token maps to the expected Cloudflare account id"
+          # Extract the Account ID from `wrangler whoami` output
+          whoami_out=$(pnpm --silent exec wrangler whoami 2>/dev/null || true)
+          echo "$whoami_out"
+          acct_line=$(echo "$whoami_out" | sed -n '3p' || true)
+          acct_id=$(echo "$acct_line" | awk -F'│' '{print $3}' | tr -d '[:space:]' || true)
+          if [ -z "$acct_id" ]; then
+            echo "Could not determine account id from wrangler whoami output. Ensure the token has correct permissions."
+            exit 1
+          fi
+          echo "Token account id: $acct_id"
+          if [ "$acct_id" != "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "Mismatch: token belongs to $acct_id but expected $CLOUDFLARE_ACCOUNT_ID"
+            echo "Ensure CLOUDFLARE_API_TOKEN is for the same account as CLOUDFLARE_ACCOUNT_ID."
+            exit 1
+          fi
+
       - name: Deploy Frontend to Cloudflare Pages (CLI)
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
