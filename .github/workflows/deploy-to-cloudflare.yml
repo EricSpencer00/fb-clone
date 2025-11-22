@@ -54,16 +54,44 @@ jobs:
           pnpm add -g wrangler@4 || pnpm add -D wrangler@4
           pnpm --silent exec wrangler --version
 
+      - name: Pre-deploy checks (secrets + pages project)
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+        run: |
+          # Fail early if essential secrets are missing
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "Required secret CLOUDFLARE_API_TOKEN is missing. Add it in repository Secrets."
+            exit 1
+          fi
+          if [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "Required secret CLOUDFLARE_ACCOUNT_ID is missing. Add it in repository Secrets."
+            exit 1
+          fi
+          if [ -z "$VITE_API_URL" ]; then
+            echo "Warning: VITE_API_URL is not set. Frontend may point to the wrong API."
+          fi
+          echo "Listing existing Pages projects for debugging"
+          pnpm --silent exec wrangler pages project list || true
+
       - name: Deploy Frontend to Cloudflare Pages (CLI)
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
         run: |
           echo "Deploying Pages project 'gracenook' from dist/"
-          echo "Listing existing Pages projects for debugging"
-          pnpm --silent exec wrangler pages project list || true
           # Attempt deploy (pass --commit-dirty to silence uncommitted-changes warning)
-          pnpm --silent exec wrangler pages deploy dist --project-name=gracenook --branch=main --commit-hash=${{ github.sha }} --commit-dirty=true
+          pnpm --silent exec wrangler pages deploy dist --project-name=gracenook --branch=main --commit-hash=${{ github.sha }} --commit-dirty=true || (
+            echo "Pages deploy failed. Attempting to create Pages project 'gracenook' and re-deploy."
+            pnpm --silent exec wrangler pages project create gracenook --production-branch=main || (
+              echo "Could not create Pages project automatically. Please create the Pages project 'gracenook' in the Cloudflare dashboard and link the repository."
+              exit 1
+            )
+            echo "Retrying pages deploy..."
+            pnpm --silent exec wrangler pages deploy dist --project-name=gracenook --branch=main --commit-hash=${{ github.sha }} --commit-dirty=true
+          )
 
       - name: Put Worker runtime secrets (JWT_SECRET)
         env:
