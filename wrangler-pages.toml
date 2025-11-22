@@ -1,14 +1,16 @@
-# Cloudflare Pages build configuration
-# This file is read by Cloudflare Pages during deployment
-# Worker configuration is in the Worker deployment step
+# Cloudflare Pages configuration
+# Frontend build configuration for Cloudflare Pages
 
 name = "fb-clone"
 type = "javascript"
 
+# Build configuration
 [build]
 command = "pnpm build"
+cwd = "./"
 output_dir = "dist"
 
+# Production environment for Pages
 [env.production]
 name = "fb-clone"
 
@@ -16,6 +18,7 @@ name = "fb-clone"
 VITE_API_URL = "https://gracenook.thebiggydg2019.workers.dev"
 VITE_DEBUG = "false"
 
+# Preview environment for Pages
 [env.preview]
 name = "fb-clone-preview"
 

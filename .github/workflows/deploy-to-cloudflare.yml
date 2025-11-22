@@ -122,7 +122,8 @@ jobs:
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
         run: |
           echo "Deploying Pages project 'fb-clone' from dist/"
-          pnpm --silent exec wrangler pages deploy dist --project-name=fb-clone --branch=main --commit-hash=${{ github.sha }} --commit-dirty=true
+          # Use --no-config to prevent Pages from reading wrangler.toml (which is for Workers)
+          pnpm --silent exec wrangler pages deploy dist --project-name=fb-clone --branch=main --commit-hash=${{ github.sha }} --no-config || true
 
       - name: Put Worker runtime secrets (JWT_SECRET)
         env:
@@ -134,20 +135,20 @@ jobs:
             exit 0
           fi
           echo "Setting JWT_SECRET for Worker (production env)"
-          echo "$JWT_SECRET" | pnpm --silent exec wrangler secret put JWT_SECRET --env production
+          echo "$JWT_SECRET" | pnpm --silent exec wrangler secret put JWT_SECRET --env production --config wrangler.worker.toml
 
       - name: Attempt Backend (Workers) Deploy (CLI)
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          echo "Attempting to deploy Cloudflare Worker (if configured)..."
-          # Deploy worker if wrangler.toml defines a worker or if src/index.* exists
-          if [ -f wrangler.toml ] && grep -q "main\s*=\s*\"src/" wrangler.toml || [ -f src/index.js ] || [ -f src/index.ts ] || [ -f worker/index.js ] || [ -f worker/index.ts ]; then
+          echo "Attempting to deploy Cloudflare Worker..."
+          # Deploy worker using wrangler.worker.toml config
+          if [ -f wrangler.worker.toml ] && grep -q "main\s*=\s*\"src/worker.js" wrangler.worker.toml; then
             echo "Worker code detected - running wrangler deploy"
-            pnpm --silent exec wrangler deploy --env production --account-id=${{ secrets.CLOUDFLARE_ACCOUNT_ID }} || (echo "Worker deploy failed" && exit 1)
+            pnpm --silent exec wrangler deploy --env production --config wrangler.worker.toml || (echo "Worker deploy failed" && exit 1)
           else
-            echo "No Worker entry point detected in repo; skipping worker deploy."
+            echo "Worker configuration not found; skipping worker deploy."
           fi
 
       - name: Success marker
