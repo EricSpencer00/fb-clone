@@ -1,4 +1,4 @@
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
+import { getApiUrl } from "@/src/config/env";
 
 let authToken: string | null = null;
 
@@ -14,7 +14,7 @@ export async function apiCall(
   endpoint: string,
   options: RequestInit = {}
 ): Promise<any> {
-  const url = `${API_BASE}${endpoint}`;
+  const url = getApiUrl(endpoint);
   const headers: HeadersInit = {
     "Content-Type": "application/json",
     ...options.headers,
