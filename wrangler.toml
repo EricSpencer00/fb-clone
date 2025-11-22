@@ -4,6 +4,7 @@ workers_dev = true
 
 # Compatibility date for Wrangler / Workers runtime
 compatibility_date = "2025-11-22"
+main = "src/worker.js"
 
 # Pages configuration
 [env.production]
@@ -25,6 +26,16 @@ cwd = "./"
 # If you want `wrangler deploy` to upload static assets from `./dist`, declare it here.
 [assets]
 directory = "./dist"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "gracenook_db"
+database_id = "654c0b9e-fb63-4ef9-aaa9-39758baf87de"
+
+# R2 bucket binding will be added once bucket is enabled in dashboard
+# [[r2_buckets]]
+# binding = "ASSETS"
+# bucket_name = "gracenook-assets"
 
 # Environment variables can be added here
 [env.production.vars]
