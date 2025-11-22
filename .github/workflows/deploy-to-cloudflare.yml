@@ -54,6 +54,16 @@ jobs:
           pnpm add -g wrangler@4 || pnpm add -D wrangler@4
           pnpm --silent exec wrangler --version
 
+      - name: Wrangler auth debug
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          echo "Wrangler version and authentication info"
+          pnpm --silent exec wrangler --version || true
+          pnpm --silent exec wrangler whoami || true
+          echo "Listing Pages projects (for the authenticated account)"
+          pnpm --silent exec wrangler pages project list || true
+
       - name: Pre-deploy checks (secrets + pages project)
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
