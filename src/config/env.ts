@@ -3,17 +3,33 @@
  * Provides API endpoints and feature flags based on deployment environment
  */
 
+// @ts-ignore - import.meta.env is available at runtime (Vite)
+const isDev = import.meta.env.MODE === 'development';
+// @ts-ignore - VITE_API_URL is injected by Vite at build time
+const viteApiUrl = import.meta.env.VITE_API_URL;
+// @ts-ignore
+const viteDebug = import.meta.env.VITE_DEBUG;
+
 const getEnv = () => {
-  const isDev = import.meta.env.MODE === 'development';
+  // Default production URL
+  let apiUrl = 'https://gracenook.thebiggydg2019.workers.dev';
+  
+  // Override with build-time env var if available
+  if (viteApiUrl) {
+    apiUrl = viteApiUrl;
+  }
+  
+  // In development, prefer local settings
+  if (isDev) {
+    apiUrl = viteApiUrl || 'http://localhost:8788';
+  }
   
   return {
     // API configuration
-    API_BASE_URL: isDev 
-      ? import.meta.env.VITE_API_URL || 'http://localhost:8788'
-      : (window.__ENV__?.API_URL || 'https://api.gracenook.workers.dev'),
+    API_BASE_URL: apiUrl,
     
     // Feature flags
-    ENABLE_DEBUG: isDev || import.meta.env.VITE_DEBUG === 'true',
+    ENABLE_DEBUG: isDev || viteDebug === 'true',
     
     // Deployment info
     DEPLOYMENT_ENV: isDev ? 'development' : 'production',
