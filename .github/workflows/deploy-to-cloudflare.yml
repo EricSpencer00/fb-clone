@@ -14,7 +14,7 @@ jobs:
       deployments: write
     environment:
       name: production
-      url: https://gracenook.pages.dev
+      url: https://gracenook.thebiggydg2019.workers.dev/
 
     steps:
       - name: Checkout code
@@ -63,11 +63,14 @@ jobs:
           pnpm --silent exec wrangler pages deploy dist --project-name=gracenook --branch=main --commit-hash=${{ github.sha }}
 
       - name: Put Worker runtime secrets (JWT_SECRET)
-        if: ${{ secrets.JWT_SECRET }}
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
         run: |
+          if [ -z "$JWT_SECRET" ]; then
+            echo "JWT_SECRET not provided in repo secrets — skipping secret put"
+            exit 0
+          fi
           echo "Setting JWT_SECRET for Worker (production env)"
           echo "$JWT_SECRET" | pnpm --silent exec wrangler secret put JWT_SECRET --env production
 
