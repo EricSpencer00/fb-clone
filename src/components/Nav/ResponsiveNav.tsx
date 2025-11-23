@@ -4,6 +4,15 @@ import { useState } from "react";
 import { useAuth } from "@/src/hooks/useAuth";
 import { NotificationCenter } from "@/src/components/Notifications/NotificationCenter";
 import { LogOut, User, Home, Users, Mail } from "lucide-react";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogClose,
+} from "@/components/ui/dialog";
 
 export default function ResponsiveNav() {
   const { logout, currentUser } = useAuth();
