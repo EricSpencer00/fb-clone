@@ -1,14 +1,25 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getFeed } from '@/src/services/api';
+import { useAuth } from '@/src/hooks/useAuth';
 import { PostCard } from '@/src/components/Post/PostCard';
 import { CreatePostModal } from '@/src/components/Post/CreatePostModal';
 import { Loader } from 'lucide-react';
 
 export function FeedPage() {
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const currentUserId = parseInt(localStorage.getItem('userId') || '0', 10);
+
+  // Redirect if not authenticated
+  useEffect(() => {
+    if (!isAuthenticated && !localStorage.getItem('authToken')) {
+      navigate('/auth/signin');
+    }
+  }, [isAuthenticated, navigate]);
 
   const loadFeed = async () => {
     try {
