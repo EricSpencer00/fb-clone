@@ -1,3 +1,8 @@
+![assets/landing-page.png](assets/landing-page.png)
+
+Try GraceNook here -> [https://fb-clone-7ng.pages.dev/](https://fb-clone-7ng.pages.dev/)
+
+
 ## GraceNook Social Platform
 
 ### Overview
