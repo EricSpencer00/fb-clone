@@ -6,6 +6,7 @@ export function FriendsPage() {
   const [requests, setRequests] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [sortBy, setSortBy] = useState<'name' | 'username'>('name');
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<'requests' | 'search'>('requests');
 
@@ -24,6 +25,25 @@ export function FriendsPage() {
   useEffect(() => {
     loadRequests();
   }, []);
+
+  // When the Find Friends tab is opened without a query, fetch a list of users
+  useEffect(() => {
+    const fetchDefaultUsers = async () => {
+      try {
+        setLoading(true);
+        const res = await searchUsers('');
+        setSearchResults(res.users || []);
+      } catch (e) {
+        console.error('Default users load error:', e);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (activeTab === 'search' && !searchQuery.trim() && searchResults.length === 0) {
+      fetchDefaultUsers();
+    }
+  }, [activeTab]);
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -140,24 +160,51 @@ export function FriendsPage() {
                 </div>
               </form>
 
+              <div className="mb-4 flex items-center justify-between">
+                <div className="text-sm text-gray-600">Showing {searchResults.length} users</div>
+                <div className="flex items-center gap-2">
+                  <label className="text-sm text-gray-600">Sort:</label>
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value as any)}
+                    className="px-2 py-1 border rounded"
+                  >
+                    <option value="name">Name</option>
+                    <option value="username">Username</option>
+                  </select>
+                </div>
+              </div>
+
               {searchResults.length === 0 && searchQuery ? (
                 <p className="text-center text-gray-500 py-8">No users found</p>
               ) : (
                 <div className="space-y-3">
-                  {searchResults.map((user) => (
-                    <div key={user.id} className="flex items-center justify-between p-3 bg-gray-50 rounded">
-                      <div>
-                        <p className="font-semibold">{user.name}</p>
-                        <p className="text-sm text-gray-600">@{user.username}</p>
+                  {(() => {
+                    const sorted = [...searchResults].sort((a, b) => {
+                      if (sortBy === 'name') {
+                        const an = (a.name || '').toLowerCase();
+                        const bn = (b.name || '').toLowerCase();
+                        return an.localeCompare(bn);
+                      }
+                      const au = (a.username || '').toLowerCase();
+                      const bu = (b.username || '').toLowerCase();
+                      return au.localeCompare(bu);
+                    });
+                    return sorted.map((user) => (
+                      <div key={user.id} className="flex items-center justify-between p-3 bg-gray-50 rounded">
+                        <div>
+                          <p className="font-semibold">{user.name}</p>
+                          <p className="text-sm text-gray-600">@{user.username}</p>
+                        </div>
+                        <button
+                          onClick={() => handleAddFriend(user.id)}
+                          className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                        >
+                          <UserPlus size={20} />
+                        </button>
                       </div>
-                      <button
-                        onClick={() => handleAddFriend(user.id)}
-                        className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                      >
-                        <UserPlus size={20} />
-                      </button>
-                    </div>
-                  ))}
+                    ));
+                  })()}
                 </div>
               )}
             </div>
