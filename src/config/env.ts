@@ -11,15 +11,15 @@ const viteApiUrl = import.meta.env.VITE_API_URL;
 const viteDebug = import.meta.env.VITE_DEBUG;
 
 const getEnv = () => {
-  // Default production URL
-  let apiUrl = 'https://gracenook.thebiggydg2019.workers.dev';
+  // Default: use relative /api path (works via Pages Function proxy in production)
+  let apiUrl = '/api';
   
-  // Override with build-time env var if available
+  // Override with build-time env var if available (for custom backends)
   if (viteApiUrl) {
     apiUrl = viteApiUrl;
   }
   
-  // In development, prefer local settings
+  // In development, use localhost proxy or direct Worker URL
   if (isDev) {
     apiUrl = viteApiUrl || 'http://localhost:8788';
   }
@@ -45,7 +45,11 @@ export const env = getEnv();
 export const getApiUrl = (path: string): string => {
   const base = env.API_BASE_URL.replace(/\/$/, ''); // Remove trailing slash
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
-  // Ensure /api prefix for all endpoints
-  const apiPath = normalizedPath.startsWith('/api') ? normalizedPath : `/api${normalizedPath}`;
+  // Ensure /api prefix for all endpoints only if base is a relative path
+  const isAbsoluteUrl = base.startsWith('http');
+  const apiPath = isAbsoluteUrl 
+    ? normalizedPath // Use path as-is for absolute URLs
+    : (normalizedPath.startsWith('/api') ? normalizedPath : `/api${normalizedPath}`); // Add /api for relative paths
   return `${base}${apiPath}`;
 };
+

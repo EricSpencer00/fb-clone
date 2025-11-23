@@ -15,7 +15,8 @@ output_dir = "dist"
 name = "fb-clone"
 
 [env.production.vars]
-VITE_API_URL = "https://gracenook.thebiggydg2019.workers.dev"
+# API requests to /api/* are proxied by Pages Function to backend Worker
+# No need to set VITE_API_URL - defaults to relative /api path
 VITE_DEBUG = "false"
 
 # Preview environment for Pages
@@ -23,5 +24,5 @@ VITE_DEBUG = "false"
 name = "fb-clone-preview"
 
 [env.preview.vars]
-VITE_API_URL = "https://gracenook.thebiggydg2019.workers.dev"
+# API requests to /api/* are proxied by Pages Function to backend Worker
 VITE_DEBUG = "true"
