@@ -13,8 +13,9 @@
       const link = slot.querySelector('a');
       link.addEventListener('click', () => record('click', ad.id));
     } catch(e){
-      slot.textContent = 'Ad load error';
-      console.error(e);
+      // Silently fail - don't show error to user
+      console.error('Ad load error:', e);
+      slot.style.display = 'none';
     }
   }
   async function record(kind,id){

@@ -7,15 +7,20 @@ import { Loader } from 'lucide-react';
 export function FeedPage() {
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const currentUserId = parseInt(localStorage.getItem('userId') || '0', 10);
 
   const loadFeed = async () => {
     try {
       setLoading(true);
+      setError(null);
       const res = await getFeed();
       setPosts(res.feed || []);
     } catch (e) {
-      console.error('Feed error:', e);
+      const errorMsg = e instanceof Error ? e.message : String(e);
+      console.error('Feed error:', errorMsg);
+      setError(errorMsg);
+      setPosts([]);
     } finally {
       setLoading(false);
     }
@@ -34,6 +39,12 @@ export function FeedPage() {
       <div className="mb-4">
         <CreatePostModal onPostCreated={loadFeed} />
       </div>
+
+      {error && (
+        <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded text-red-700">
+          <strong>Error:</strong> {error}
+        </div>
+      )}
 
       {loading && posts.length === 0 ? (
         <div className="flex justify-center p-8">
