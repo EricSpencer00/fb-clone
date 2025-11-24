@@ -65,7 +65,7 @@ export async function apiDelete(endpoint: string) {
 
 // Auth API
 export async function registerUser(email: string, username: string, name: string, password: string) {
-  const res = await apiCall("/api/auth/register", {
+  const res = await apiCall("/auth/register", {
     method: "POST",
     body: JSON.stringify({ email, username, name, password }),
   });
@@ -74,7 +74,7 @@ export async function registerUser(email: string, username: string, name: string
 }
 
 export async function loginUser(identifier: string, password: string) {
-  const res = await apiCall("/api/auth/login", {
+  const res = await apiCall("/auth/login", {
     method: "POST",
     body: JSON.stringify({ identifier, password }),
   });
