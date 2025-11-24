@@ -3,7 +3,7 @@
 # Worker configuration is in the Worker deployment step
 
 
-name = "fb-clone"
+name = "gracenook"
 type = "javascript"
 
 # Wrangler needs a compatibility date when deploying assets
