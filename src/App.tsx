@@ -9,6 +9,7 @@ import { FriendsPage } from "@/src/pages/FriendsPage";
 import { ProfilePage } from "@/src/pages/Profile";
 import { MessagesPage } from "@/src/pages/MessagesPage";
 import ResponsiveNav from "@/src/components/Nav/ResponsiveNav";
+import ExplorePage from '@/src/pages/Explore';
 
 function App() {
   return (
@@ -23,14 +24,13 @@ function App() {
           <Route path="/auth/signup" element={<SignUp />} />
           <Route path="/home" element={<Home />} />
           <Route path="/feed" element={<FeedPage />} />
-           <Route path="/explore" element={<ExplorePage />} />
+          <Route path="/explore" element={<ExplorePage />} />
           <Route path="/friends" element={<FriendsPage />} />
           <Route path="/profile/:userId" element={<ProfilePage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/messages/:userId" element={<MessagesPage />} />
           <Route path="/messages" element={<MessagesPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
-        import ExplorePage from '@/src/pages/Explore';
         </Routes>
       </AuthProvider>
     </Router>
