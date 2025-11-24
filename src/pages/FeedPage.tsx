@@ -5,6 +5,7 @@ import { useAuth } from '@/src/hooks/useAuth';
 import { PostCard } from '@/src/components/Post/PostCard';
 import { CreatePostModal } from '@/src/components/Post/CreatePostModal';
 import { Loader } from 'lucide-react';
+import AdsSidebar from '@/src/components/Ads/AdsSidebar';
 
 export function FeedPage() {
   const navigate = useNavigate();
@@ -46,36 +47,42 @@ export function FeedPage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-4">
-      <div className="mb-4">
-        <CreatePostModal onPostCreated={loadFeed} />
+    <div className="p-4">
+      <div className="lg:flex lg:gap-6 lg:justify-center">
+        <AdsSidebar />
+
+        <main className="w-full lg:max-w-2xl">
+          <div className="mb-4">
+            <CreatePostModal onPostCreated={loadFeed} />
+          </div>
+
+          {error && (
+            <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded text-red-700">
+              <strong>Error:</strong> {error}
+            </div>
+          )}
+
+          {loading && posts.length === 0 ? (
+            <div className="flex justify-center p-8">
+              <Loader className="animate-spin" />
+            </div>
+          ) : posts.length === 0 ? (
+            <div className="text-center p-8 text-gray-500">No posts yet. Start following friends!</div>
+          ) : (
+            <div>
+              {posts.map((post) => (
+                <PostCard
+                  key={post.id || Math.random()}
+                  post={post}
+                  currentUserId={currentUserId}
+                  onDeleted={handlePostDeleted}
+                  onCommented={loadFeed}
+                />
+              ))}
+            </div>
+          )}
+        </main>
       </div>
-
-      {error && (
-        <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded text-red-700">
-          <strong>Error:</strong> {error}
-        </div>
-      )}
-
-      {loading && posts.length === 0 ? (
-        <div className="flex justify-center p-8">
-          <Loader className="animate-spin" />
-        </div>
-      ) : posts.length === 0 ? (
-        <div className="text-center p-8 text-gray-500">No posts yet. Start following friends!</div>
-      ) : (
-        <div>
-          {posts.map((post) => (
-            <PostCard
-              key={post.id || Math.random()}
-              post={post}
-              currentUserId={currentUserId}
-              onDeleted={handlePostDeleted}
-              onCommented={loadFeed}
-            />
-          ))}
-        </div>
-      )}
     </div>
   );
 }
