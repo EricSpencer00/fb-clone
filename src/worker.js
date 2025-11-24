@@ -37,6 +37,11 @@ export default {
       const authUser = await requireAuth(request, env);
       if (!authUser) return json({ error: 'Unauthorized' }, 401);
 
+      // Explore: all public posts (authenticated)
+      if (pathname === '/api/posts/explore' && request.method === 'GET') {
+        return getExplore(env, authUser.id);
+      }
+
       // Users & Profiles
       if (pathname.startsWith('/api/users/search') && request.method === 'GET') {
         const q = searchParams.get('q') || '';
@@ -283,6 +288,17 @@ async function getFeed(env, userId) {
   const rows = await env.DB.prepare(query).all();
   let posts = rows.results;
   // Insert ads every 5 posts
+  for (let i = 5; i < posts.length; i += 6) {
+    const ad = await env.DB.prepare('SELECT id, title, image_url, target_url FROM ads ORDER BY RANDOM() LIMIT 1').first();
+    if (ad) posts.splice(i, 0, { ad });
+  }
+  return json({ feed: posts });
+}
+
+// Explore: return platform-wide posts (public) with ads injected
+async function getExplore(env, userId) {
+  const rows = await env.DB.prepare('SELECT p.*, (SELECT COUNT(*) FROM post_likes pl WHERE pl.post_id = p.id) as like_count FROM posts p WHERE p.privacy_setting = "public" ORDER BY p.post_date DESC LIMIT 100').all();
+  let posts = rows.results;
   for (let i = 5; i < posts.length; i += 6) {
     const ad = await env.DB.prepare('SELECT id, title, image_url, target_url FROM ads ORDER BY RANDOM() LIMIT 1').first();
     if (ad) posts.splice(i, 0, { ad });

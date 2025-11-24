@@ -36,10 +36,11 @@ export default function ResponsiveNav() {
   return (
     <>
       {/* Right side nav for larger screens */}
-      <aside className="hidden lg:flex flex-col w-80 fixed right-0 top-16 h-[calc(100%-4rem)] p-4 gap-3 border-l bg-white/70 backdrop-blur-sm z-40 shadow-lg">
+      <aside className="hidden lg:flex flex-col w-80 fixed right-0 top-0 h-screen p-6 gap-3 border-l bg-white/80 backdrop-blur-sm z-40 shadow-lg">
         <div className="text-sm font-semibold px-2 pb-2 text-gray-800">Navigation</div>
         <nav className="flex-1 space-y-1">
           <NavItem to="/feed" label="Home" icon={Home} />
+          <NavItem to="/explore" label="Explore" />
           <NavItem to="/friends" label="Friends" icon={Users} />
           <NavItem to="/messages" label="Messages" icon={Mail} />
           <div className="flex items-center justify-between px-3 py-2">
@@ -92,6 +93,7 @@ export default function ResponsiveNav() {
 
             <nav className="mt-4 space-y-2">
               <Link to="/feed" className="block px-3 py-2 rounded hover:bg-gray-100">Home</Link>
+              <Link to="/explore" className="block px-3 py-2 rounded hover:bg-gray-100">Explore</Link>
               <Link to="/friends" className="block px-3 py-2 rounded hover:bg-gray-100">Friends</Link>
               <Link to="#" className="block px-3 py-2 rounded hover:bg-gray-100">Messages</Link>
               <Link to="#" className="block px-3 py-2 rounded hover:bg-gray-100">Notifications</Link>

@@ -125,6 +125,10 @@ export async function getFeed() {
   return apiGet("/posts/feed");
 }
 
+export async function getExplorePosts() {
+  return apiGet("/posts/explore");
+}
+
 // Likes & Comments
 export async function toggleLike(postId: number | string) {
   return apiPost(`/posts/${postId}/like`, {});

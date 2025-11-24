@@ -23,12 +23,14 @@ function App() {
           <Route path="/auth/signup" element={<SignUp />} />
           <Route path="/home" element={<Home />} />
           <Route path="/feed" element={<FeedPage />} />
+           <Route path="/explore" element={<ExplorePage />} />
           <Route path="/friends" element={<FriendsPage />} />
           <Route path="/profile/:userId" element={<ProfilePage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/messages/:userId" element={<MessagesPage />} />
           <Route path="/messages" element={<MessagesPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
+        import ExplorePage from '@/src/pages/Explore';
         </Routes>
       </AuthProvider>
     </Router>
