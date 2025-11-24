@@ -8,6 +8,19 @@ export const onRequest = async (context: any) => {
   const pathParts = context.params.path || [];
   const path = Array.isArray(pathParts) ? pathParts.join('/') : '';
   
+  // Handle CORS preflight requests
+  if (context.request.method === 'OPTIONS') {
+    return new Response(null, {
+      status: 204,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With',
+        'Access-Control-Max-Age': '86400',
+      },
+    });
+  }
+  
   // Construct the backend URL - keep the full path including /api
   const backendPath = path ? `/api/${path}` : '/api';
   const backendUrl = new URL(`https://gracenook.thebiggydg2019.workers.dev${backendPath}`);
