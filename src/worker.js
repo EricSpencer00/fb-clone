@@ -374,8 +374,42 @@ async function markNotificationsRead(request, env, userId) {
 
 // Ads (existing simplified)
 async function getRandomAd(env) {
-  const ad = await env.DB.prepare('SELECT id, title, image_url, target_url FROM ads ORDER BY RANDOM() LIMIT 1').first();
-  return ad ? json({ ad }) : json({ error: 'No ads available' }, 404);
+  try {
+    // Try to get an ad from the existing table
+    const ad = await env.DB.prepare('SELECT id, title, image_url, target_url FROM ads ORDER BY RANDOM() LIMIT 1').first();
+    if (ad) return json({ ad });
+  } catch (e) {
+    // Table might not exist, create it and seed
+    try {
+      await env.DB.exec(`
+        CREATE TABLE IF NOT EXISTS ads (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          title TEXT NOT NULL,
+          image_url TEXT NOT NULL,
+          target_url TEXT NOT NULL,
+          impression_count INTEGER DEFAULT 0,
+          click_count INTEGER DEFAULT 0,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+      `);
+      
+      // Seed with sample ads
+      await env.DB.prepare('INSERT INTO ads (title, image_url, target_url) VALUES (?, ?, ?)')
+        .bind('Summer Collection', 'https://placehold.co/320x100?text=Summer', 'https://example.com/summer').run();
+      await env.DB.prepare('INSERT INTO ads (title, image_url, target_url) VALUES (?, ?, ?)')
+        .bind('Tech Sale', 'https://placehold.co/320x100?text=Tech+Sale', 'https://example.com/tech').run();
+      await env.DB.prepare('INSERT INTO ads (title, image_url, target_url) VALUES (?, ?, ?)')
+        .bind('Learn More', 'https://placehold.co/320x100?text=Learn+More', 'https://example.com/learn').run();
+      
+      // Now get a random ad
+      const ad = await env.DB.prepare('SELECT id, title, image_url, target_url FROM ads ORDER BY RANDOM() LIMIT 1').first();
+      if (ad) return json({ ad });
+    } catch (createError) {
+      console.error('Failed to create ads table:', createError);
+    }
+  }
+  
+  return json({ error: 'No ads available' }, 404);
 }
 async function recordAdMetric(env, id, kind) {
   if (!/^[0-9]+$/.test(id)) return json({ error: 'Invalid id' }, 400);
