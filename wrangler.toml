@@ -2,12 +2,20 @@
 # This file is read by Cloudflare Pages during deployment
 # Worker configuration is in the Worker deployment step
 
+
 name = "fb-clone"
 type = "javascript"
 
+# Wrangler needs a compatibility date when deploying assets
+compatibility_date = "2025-11-24"
+
 [build]
 command = "pnpm build"
+# Note: Pages/Assets directory is `dist` after running the frontend build
 output_dir = "dist"
+
+[assets]
+directory = "./dist"
 
 [env.production]
 name = "fb-clone"
