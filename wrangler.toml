@@ -21,7 +21,6 @@ directory = "./dist"
 name = "fb-clone"
 
 [env.production.vars]
-VITE_API_URL = "https://gracenook.thebiggydg2019.workers.dev"
 VITE_DEBUG = "false"
 
 [env.preview]
