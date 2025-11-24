@@ -1,31 +1,8 @@
-# Cloudflare Pages build configuration
-# This file is read by Cloudflare Pages during deployment
-# Worker configuration is in the Worker deployment step
+# Cloudflare Pages asset deployment configuration ONLY
+# DO NOT put Worker configuration here
 
-
-name = "gracenook"
-type = "javascript"
-
-# Wrangler needs a compatibility date when deploying assets
-compatibility_date = "2025-11-24"
-
-[build]
-command = "pnpm build"
-# Note: Pages/Assets directory is `dist` after running the frontend build
-output_dir = "dist"
-
-[assets]
-directory = "./dist"
-
-[env.production]
 name = "fb-clone"
+type = "javascript"
+compatibility_date = "2025-11-24"
+pages_build_output_dir = "dist"
 
-[env.production.vars]
-VITE_DEBUG = "false"
-
-[env.preview]
-name = "fb-clone-preview"
-
-[env.preview.vars]
-VITE_API_URL = "https://gracenook.thebiggydg2019.workers.dev"
-VITE_DEBUG = "true"

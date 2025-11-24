@@ -1,23 +1,11 @@
 # Cloudflare Pages configuration
-# Frontend build configuration for Cloudflare Pages
+# DO NOT include Worker config here - Pages and Workers have different configs
 
 name = "fb-clone"
 type = "javascript"
+compatibility_date = "2025-11-24"
+pages_build_output_dir = "dist"
 
-# Build configuration
-[build]
-command = "pnpm build"
-cwd = "./"
-output_dir = "dist"
-
-# Production environment for Pages
-[env.production]
-name = "fb-clone"
-
-[env.production.vars]
-# API requests to /api/* are proxied by Pages Function to backend Worker
-# No need to set VITE_API_URL - defaults to relative /api path
-VITE_DEBUG = "false"
 
 # Preview environment for Pages
 [env.preview]
