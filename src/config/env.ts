@@ -45,8 +45,14 @@ export const env = getEnv();
 export const getApiUrl = (path: string): string => {
   const base = env.API_BASE_URL.replace(/\/$/, ''); // Remove trailing slash
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  const isAbsoluteUrl = base.startsWith('http');
   
-  // Return base + path as-is. Paths should include /api prefix when needed.
-  return `${base}${normalizedPath}`;
+  // Ensure /api prefix for all endpoints
+  let apiPath = normalizedPath;
+  if (!normalizedPath.startsWith('/api')) {
+    apiPath = `/api${normalizedPath}`;
+  }
+  
+  return `${base}${apiPath}`;
 };
 
