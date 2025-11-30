@@ -1,2 +1,0 @@
-INSERT INTO users (username,name,email,password_hash) SELECT 'test','Test User','test@example.com','3MM69HIVSqXF_rK6Lw_fMA.bpw0WySomX_8pLAmyhvlMmwcLN5sgsppnYcK66UdyGs' WHERE NOT EXISTS (SELECT 1 FROM users WHERE username='test');
-INSERT INTO profiles (user_id,bio) SELECT id,'Test account (seeded)' FROM users WHERE username='test' AND NOT EXISTS (SELECT 1 FROM profiles WHERE user_id = (SELECT id FROM users WHERE username='test'));

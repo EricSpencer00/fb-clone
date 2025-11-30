@@ -1,9 +1,0 @@
-{
-  "source": "https://21st.dev/r/ibelick/dock",
-  "savedAt": "2025-11-12T18:54:08.765Z",
-  "filename": "data.json",
-  "contentType": "application/json",
-  "writtenFiles": [
-    "components/ui/dock.tsx"
-  ]
-}

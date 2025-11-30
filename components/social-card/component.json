@@ -1,9 +1,0 @@
-{
-  "source": "https://21st.dev/r/kokonutd/social-card",
-  "savedAt": "2025-11-12T18:54:13.969Z",
-  "filename": "data.json",
-  "contentType": "application/json",
-  "writtenFiles": [
-    "components/ui/social-card.tsx"
-  ]
-}
