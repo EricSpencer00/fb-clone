@@ -1,52 +1,30 @@
 {
-  "name": "shadcn-local",
-  "version": "0.1.0",
-  "description": "Minimal shadcn-style CLI to add remote component files into a project (local demo)",
-  "bin": {
-    "shadcn": "./bin/shadcn"
-  },
+  "name": "gracenook",
+  "version": "1.0.0",
+  "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && cp -r functions dist/",
-    "preview": "vite preview"
-  },
-  "type": "module",
-  "keywords": [
-    "shadcn",
-    "components",
-    "cli",
-    "add"
-  ],
-  "author": "",
-  "license": "MIT",
-  "engines": {
-    "node": ">=18"
-  },
-  "devDependencies": {
-    "@tailwindcss/postcss": "^4.1.17",
-    "@types/node": "^24.10.1",
-    "@types/react": "^19.2.4",
-    "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^5.1.1",
-    "autoprefixer": "^10.4.22",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^4.1.17",
-    "typescript": "^5.9.3",
-    "vite": "^7.2.2"
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "worker:dev": "wrangler dev src/worker.js --local",
+    "deploy:worker": "wrangler deploy src/worker.js",
+    "deploy": "npm run build && wrangler pages deploy dist --project-name=fb-clone",
+    "db:migrate": "wrangler d1 execute gracenook-db --remote --file=./migrations/001_schema.sql && wrangler d1 execute gracenook-db --remote --file=./migrations/002_seed.sql"
   },
   "dependencies": {
-    "@radix-ui/react-dialog": "^1.1.15",
-    "@radix-ui/react-icons": "^1.3.2",
-    "@radix-ui/react-slot": "^1.2.4",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "framer-motion": "^12.23.24",
-    "lucide-react": "^0.553.0",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
-    "react-router-dom": "^7.9.5",
-    "simplex-noise": "^4.0.3",
-    "tailwind-merge": "^3.4.0",
-    "tailwindcss-animate": "^1.0.7"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.20.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.38",
+    "@types/react-dom": "^18.2.17",
+    "@vitejs/plugin-react": "^4.2.0",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.3.5",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.2",
+    "wrangler": "^3.17.1"
   }
 }

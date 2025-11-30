@@ -1,7 +1,11 @@
-# Cloudflare Pages asset deployment configuration ONLY
-# DO NOT put Worker configuration here
+# GraceNook Worker Configuration
+name = "gracenook"
+main = "src/worker.js"
+compatibility_date = "2024-01-01"
 
-name = "fb-clone"
-compatibility_date = "2025-11-24"
-pages_build_output_dir = "dist"
+# D1 Database binding
+[[d1_databases]]
+binding = "DB"
+database_name = "gracenook-db"
+database_id = "654c0b9e-fb63-4ef9-aaa9-39758baf87de"
 
