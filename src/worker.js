@@ -647,7 +647,7 @@ async function reportContent(request, env, userId, contentType, contentId) {
 // ===== FRIENDS =====
 async function listFriends(env, userId) {
   const friends = await env.DB.prepare(`
-    SELECT u.id, u.username, u.name, p.profile_photo, f.friend_since
+    SELECT u.id, u.username, u.name, p.profile_photo, f.since AS friend_since
     FROM friends f
     JOIN users u ON (f.user_id_a = u.id OR f.user_id_b = u.id) AND u.id != ?
     LEFT JOIN profiles p ON u.id = p.user_id
