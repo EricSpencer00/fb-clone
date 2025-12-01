@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="300" viewBox="0 0 800 300">
+  <rect width="100%" height="100%" fill="#fff"/>
+  <text x="16" y="28" font-family="Arial" font-weight="700">Figure 10-18 (adapted) — Volumetrics Summary</text>
+  <text x="40" y="64">Assumptions:</text>
+  <text x="40" y="88">- 10k users, 2k DAU</text>
+  <text x="40" y="108">- ~200 posts/day, 4k messages/day</text>
+  <text x="40" y="136">Estimated storage (monthly):</text>
+  <text x="40" y="160">- Messages: ~60 MB/month</text>
+  <text x="40" y="180">- Posts+comments+likes: ~5 MB/day (~150 MB/month)</text>
+  <text x="40" y="210">- Plan for 2x storage for indexes/backups</text>
+</svg>

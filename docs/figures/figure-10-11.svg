@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="260" viewBox="0 0 800 260">
+  <rect width="100%" height="100%" fill="#fff"/>
+  <text x="16" y="28" font-family="Arial" font-weight="700">Figure 10-11 (adapted) — Denormalized Feed Row</text>
+  <rect x="20" y="44" width="760" height="180" fill="#fef3c7" stroke="#b45309" rx="6"/>
+  <text x="40" y="84">Columns (example):</text>
+  <text x="40" y="104">post_id | user_id | username | profile_photo | content | media_url | post_date | like_count | comment_count | isAd | ad_id | ad_title</text>
+  <text x="40" y="140">Use: direct read for feed tiles; pre-joined to reduce per-tile joins.</text>
+</svg>

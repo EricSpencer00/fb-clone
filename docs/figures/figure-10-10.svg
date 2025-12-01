@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="240" viewBox="0 0 800 240">
+  <rect width="100%" height="100%" fill="#fff"/>
+  <text x="16" y="28" font-family="Arial" font-weight="700">Figure 10-10 (adapted) — CRUD Matrix Snapshot</text>
+  <rect x="16" y="44" width="760" height="160" fill="#f8fafc" stroke="#0ea5e9" rx="6"/>
+  <text x="32" y="84">Examples:</text>
+  <text x="32" y="106">- `POST /api/posts` → posts (Create)</text>
+  <text x="32" y="126">- `GET /api/posts/feed` → posts + joins (Read)</text>
+  <text x="32" y="146">- `POST /api/admin/ads/:id/approve` → ads (Update)</text>
+</svg>
