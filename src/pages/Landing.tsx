@@ -142,7 +142,7 @@ export default function Landing() {
                 <div className="text-center text-sm text-gray-600 pt-4 border-t">
                   <p>Demo accounts:</p>
                   <p className="mt-1"><strong>Admin:</strong> admin1 / password123</p>
-                  <p><strong>User:</strong> test / password123</p>
+                  <p><strong>User:</strong> test / gracenookprodpassword123456</p>
                 </div>
               </form>
             ) : (
