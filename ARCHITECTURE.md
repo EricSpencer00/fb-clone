@@ -144,29 +144,29 @@ Dialog / Modal:
 ├──────────────────────────────────────────────────┤
 │ Main Feed Area:                                  │
 │                                                  │
-│  ┌────────────────────────────────────────────┐ │
-│  │ "Create a Post" Box                        │ │
-│  │ [Photo/Video Icon] [Caption Input]         │ │
-│  │ [Post Button]                              │ │
-│  └────────────────────────────────────────────┘ │
+│  ┌────────────────────────────────────────────┐  │
+│  │ "Create a Post" Box                        │  │
+│  │ [Photo/Video Icon] [Caption Input]         │  │
+│  │ [Post Button]                              │  │
+│  └────────────────────────────────────────────┘  │
 │                                                  │
 │  ┌─ Social Card 1 ─────────────────────────────┐ │
-│  │ User: John Doe (@johndoe)                  │ │
-│  │ [Photo/Video]                              │ │
-│  │ Caption: "Had an amazing time..."          │ │
-│  │ [Like] [Comment] [Share] [More...]         │ │
-│  │ 234 Likes  15 Comments                     │ │
+│  │ User: John Doe (@johndoe)                   │ │
+│  │ [Photo/Video]                               │ │
+│  │ Caption: "Had an amazing time..."           │ │
+│  │ [Like] [Comment] [Share] [More...]          │ │
+│  │ 234 Likes  15 Comments                      │ │
 │  │ ┌─ Comments Section ──────────────────────┐ │ │
 │  │ │ Alice: "Looks fun!"                     │ │ │
 │  │ │ Bob: "Where was this?"                  │ │ │
 │  │ │ [Show more comments]                    │ │ │
 │  │ │ [Write a comment...]                    │ │ │
 │  │ └─────────────────────────────────────────┘ │ │
-│  └──────────────────────────────────────────────┘ │
+│  └─────────────────────────────────────────────┘ │
 │                                                  │
 │  ┌─ Social Card 2 ─────────────────────────────┐ │
-│  │ ... (repeating pattern)                    │ │
-│  └──────────────────────────────────────────────┘ │
+│  │ ... (repeating pattern)                     │ │
+│  └─────────────────────────────────────────────┘ │
 │                                                  │
 └──────────────────────────────────────────────────┘
 ```
@@ -212,8 +212,8 @@ Dialog / Modal:
 │ - Rotating 3D sphere              │
 │ - User avatars positioned on globe│
 │ - Click to view profile           │
-│                                    │
-│ OR List View (fallback):           │
+│                                   │
+│ OR List View (fallback):          │
 │ ┌──────────────────────────────┐  │
 │ │ Avatar | John Doe            │  │
 │ │        | @johndoe            │  │
@@ -224,8 +224,8 @@ Dialog / Modal:
 │ │        | @janesmith          │  │
 │ │        | [View Profile]      │  │
 │ └──────────────────────────────┘  │
-│                                    │
-└────────────────────────────────────┘
+│                                   │
+└───────────────────────────────────┘
 ```
 
 **Requests Tab:**
@@ -330,7 +330,7 @@ Dialog / Modal:
 │                    2:36 PM                   │
 │                                              │
 ├──────────────────────────────────────────────┤
-│ [Photo Icon] [Write a message...] [Send]    │
+│ [Photo Icon] [Write a message...] [Send]     │
 │                                              │
 └──────────────────────────────────────────────┘
 ```
@@ -367,17 +367,17 @@ Dialog / Modal:
 │ └──────────────────────────────┘   │
 │ ┌──────────────────────────────┐   │
 │ │ Avatar | Alice sent you a... │   │
-│ │ friend request                │   │
+│ │ friend request               │   │
 │ │ 15 minutes ago | [Accept]    │   │
 │ └──────────────────────────────┘   │
 │ ┌──────────────────────────────┐   │
 │ │ Avatar | Bob commented:      │   │
-│ │ "Where was this?"             │   │
-│ │ 1 hour ago | [View]           │   │
+│ │ "Where was this?"            │   │
+│ │ 1 hour ago | [View]          │   │
 │ └──────────────────────────────┘   │
 │ ┌──────────────────────────────┐   │
 │ │ Avatar | Carol sent you      │   │
-│ │ a message                     │   │
+│ │ a message                    │   │
 │ │ 2 hours ago | [View]         │   │
 │ └──────────────────────────────┘   │
 │                                    │

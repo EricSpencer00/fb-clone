@@ -73,20 +73,6 @@ export default function Landing() {
         <p className="text-xl lg:text-2xl text-blue-100 max-w-lg text-center lg:text-left">
           Connect with friends and the world around you on GraceNook.
         </p>
-        <div className="mt-8 grid grid-cols-3 gap-8 text-center">
-          <div>
-            <div className="text-3xl font-bold">1K+</div>
-            <div className="text-blue-200 text-sm">Users</div>
-          </div>
-          <div>
-            <div className="text-3xl font-bold">5K+</div>
-            <div className="text-blue-200 text-sm">Posts</div>
-          </div>
-          <div>
-            <div className="text-3xl font-bold">10K+</div>
-            <div className="text-blue-200 text-sm">Connections</div>
-          </div>
-        </div>
       </div>
 
       {/* Auth Forms */}

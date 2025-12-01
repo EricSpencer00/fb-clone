@@ -1,0 +1,20 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="800" fill="#f8fafc"/>
+  <rect x="0" y="0" width="1200" height="72" fill="#fff" stroke="#e6eefc"/>
+  <text x="24" y="44" font-family="Inter, Arial, sans-serif" font-size="20" fill="#0f172a" font-weight="700">Explore</text>
+
+  <!-- Tabs -->
+  <rect x="24" y="96" width="1152" height="56" fill="#fff" rx="8" stroke="#e6eefc"/>
+  <text x="48" y="132" font-family="Inter, Arial, sans-serif" font-size="14" fill="#2563eb">📰 Discover Posts</text>
+  <text x="220" y="132" font-family="Inter, Arial, sans-serif" font-size="14" fill="#64748b">👥 Find People</text>
+
+  <!-- Posts list -->
+  <g>
+    <rect x="48" y="176" width="1104" height="200" fill="#fff" rx="8" stroke="#e6eefc"/>
+    <text x="72" y="206" font-family="Inter, Arial, sans-serif" font-size="14" fill="#0f172a" font-weight="600">U · @ · 6d ago</text>
+    <text x="72" y="234" font-family="Inter, Arial, sans-serif" font-size="13" fill="#334155">Hike movie build weekend friend breeze build food mountain laugh play breeze code.</text>
+    <text x="72" y="266" font-family="Inter, Arial, sans-serif" font-size="12" fill="#94a3b8">0 likes · 0 comments</text>
+  </g>
+
+  <text x="24" y="768" font-family="Inter, Arial, sans-serif" font-size="12" fill="#94a3b8">Explore / Discover Posts — public posts from users you don't follow</text>
+</svg>

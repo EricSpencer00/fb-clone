@@ -1,0 +1,23 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="900" fill="#f1f5f9"/>
+  <rect x="0" y="0" width="1200" height="72" fill="#fff" stroke="#e6eefc"/>
+  <text x="24" y="44" font-family="Inter, Arial, sans-serif" font-size="20" fill="#0f172a" font-weight="700">Profile</text>
+
+  <!-- Banner -->
+  <rect x="48" y="96" width="1104" height="200" fill="#fff" rx="12" stroke="#e6eefc"/>
+  <circle cx="140" cy="196" r="48" fill="#2563eb"/>
+  <text x="208" y="180" font-family="Inter, Arial, sans-serif" font-size="18" fill="#0f172a" font-weight="700">User Name</text>
+  <text x="208" y="206" font-family="Inter, Arial, sans-serif" font-size="13" fill="#64748b">@username · 12 posts</text>
+
+  <!-- About & posts -->
+  <rect x="48" y="320" width="360" height="440" fill="#fff" rx="8" stroke="#e6eefc"/>
+  <text x="72" y="356" font-family="Inter, Arial, sans-serif" font-size="14" fill="#0f172a" font-weight="600">About</text>
+  <text x="72" y="384" font-family="Inter, Arial, sans-serif" font-size="13" fill="#334155">Bio, location, and privacy setting</text>
+
+  <rect x="432" y="320" width="720" height="440" fill="#fff" rx="8" stroke="#e6eefc"/>
+  <text x="456" y="356" font-family="Inter, Arial, sans-serif" font-size="14" fill="#0f172a" font-weight="600">Posts</text>
+  <rect x="456" y="384" width="672" height="120" fill="#f8fafc" rx="8"/>
+  <text x="472" y="420" font-family="Inter, Arial, sans-serif" font-size="13" fill="#334155">Sample post content appears here...</text>
+
+  <text x="48" y="868" font-family="Inter, Arial, sans-serif" font-size="12" fill="#94a3b8">Profile view — use this as a template for edit/profile interactions</text>
+</svg>

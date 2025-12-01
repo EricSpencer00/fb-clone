@@ -1,0 +1,19 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="800" fill="#f8fafc"/>
+  <rect x="0" y="0" width="1200" height="72" fill="#fff" stroke="#e6eefc"/>
+  <text x="24" y="44" font-family="Inter, Arial, sans-serif" font-size="20" fill="#0f172a" font-weight="700">Friends</text>
+
+  <!-- Requests -->
+  <rect x="24" y="96" width="560" height="640" fill="#fff" rx="8" stroke="#e6eefc"/>
+  <text x="56" y="132" font-family="Inter, Arial, sans-serif" font-size="16" fill="#0f172a" font-weight="600">Friend Requests</text>
+  <rect x="56" y="160" width="480" height="80" fill="#f8fafc" rx="8"/>
+  <text x="80" y="208" font-family="Inter, Arial, sans-serif" font-size="14" fill="#334155">Alice · mutual friends: 2</text>
+
+  <!-- Discover -->
+  <rect x="608" y="96" width="560" height="640" fill="#fff" rx="8" stroke="#e6eefc"/>
+  <text x="640" y="132" font-family="Inter, Arial, sans-serif" font-size="16" fill="#0f172a" font-weight="600">Discover People</text>
+  <rect x="640" y="160" width="480" height="80" fill="#f8fafc" rx="8"/>
+  <text x="664" y="208" font-family="Inter, Arial, sans-serif" font-size="14" fill="#334155">Search and filters appear here</text>
+
+  <text x="24" y="768" font-family="Inter, Arial, sans-serif" font-size="12" fill="#94a3b8">Friends flows and discover — import and annotate in Figma</text>
+</svg>

@@ -1,0 +1,34 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="800" fill="#f1f5f9"/>
+  <!-- Top nav -->
+  <rect x="0" y="0" width="1200" height="72" fill="#fff" stroke="#e6eefc"/>
+  <text x="24" y="44" font-family="Inter, Arial, sans-serif" font-size="20" fill="#0f172a" font-weight="700">GraceNook</text>
+
+  <!-- Left sidebar -->
+  <rect x="24" y="96" width="220" height="640" fill="#fff" rx="8" stroke="#e6eefc"/>
+  <text x="44" y="136" font-family="Inter, Arial, sans-serif" font-size="14" fill="#475569">Home</text>
+  <text x="44" y="164" font-family="Inter, Arial, sans-serif" font-size="14" fill="#475569">Friends</text>
+  <text x="44" y="192" font-family="Inter, Arial, sans-serif" font-size="14" fill="#475569">Messages</text>
+  <text x="44" y="220" font-family="Inter, Arial, sans-serif" font-size="14" fill="#475569">Explore</text>
+
+  <!-- Feed column -->
+  <rect x="260" y="96" width="640" height="640" fill="#fff" rx="8" stroke="#e6eefc"/>
+  <rect x="288" y="120" width="584" height="84" fill="#f8fafc" rx="8"/>
+  <text x="304" y="166" font-family="Inter, Arial, sans-serif" font-size="14" fill="#64748b">What's on your mind?</text>
+
+  <!-- Post card sample -->
+  <g>
+    <rect x="288" y="220" width="584" height="120" fill="#ffffff" rx="8" stroke="#e6eefc"/>
+    <text x="312" y="250" font-family="Inter, Arial, sans-serif" font-size="14" fill="#0f172a" font-weight="600">U · @user · 6d ago</text>
+    <text x="312" y="278" font-family="Inter, Arial, sans-serif" font-size="13" fill="#334155">Hike movie build weekend friend breeze build food mountain laugh play breeze code.</text>
+    <text x="312" y="310" font-family="Inter, Arial, sans-serif" font-size="12" fill="#94a3b8">0 likes · 0 comments</text>
+  </g>
+
+  <!-- Right sidebar (ads) -->
+  <rect x="920" y="96" width="240" height="640" fill="#fff" rx="8" stroke="#e6eefc"/>
+  <text x="940" y="132" font-family="Inter, Arial, sans-serif" font-size="12" fill="#64748b">Sponsored</text>
+  <rect x="940" y="148" width="200" height="100" fill="#fde68a" rx="8"/>
+  <text x="940" y="264" font-family="Inter, Arial, sans-serif" font-size="12" fill="#475569">Ad title and CTA</text>
+
+  <text x="24" y="768" font-family="Inter, Arial, sans-serif" font-size="12" fill="#94a3b8">Feed view — import into Figma and add interaction annotations</text>
+</svg>
